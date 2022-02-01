@@ -51,15 +51,15 @@ function App() {
   }, [token])
   const addMovie = async movie => {
     try {
-      const res = await axios.post('http://localhost:8000/api/login', movie, {
+      const res = await axios.post('http://localhost:8000/api/movies', movie, {
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
       setMovies(prev => [...prev, {
         ...res.data,
-        genre: genres.find(e => e.id === res.data.genre_id),
-        director: directors.find(e => e.id === res.data.director_id)
+        genre: genres.find(e => e.id == res.data.genre_id),
+        director: directors.find(e => e.id == res.data.director_id)
       }]);
     } catch (error) {
       alert(error.response.data.error);
