@@ -14,7 +14,7 @@ export default function Navbar({ authenticated }) {
                 <NavLink to='/' className='nav-link'>Movies</NavLink>
               </li>
               <li className="nav-item mx-auto">
-                <NavLink to='/overview' className='nav-link'>Directors</NavLink>
+                <NavLink to='/directors' className='nav-link'>Directors</NavLink>
               </li>
             </>
           ) : (

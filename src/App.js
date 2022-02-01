@@ -3,7 +3,9 @@ import { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Navbar from './components/Navbar';
+import DirectorsPage from './pages/DirectorsPage';
 import LoginPage from './pages/LoginPage';
+import MoviesPage from './pages/MoviesPage';
 axios.defaults.headers.Accept = 'application/json';
 
 function App() {
@@ -47,6 +49,22 @@ function App() {
       setDirectors(res.data);
     })
   }, [token])
+  const addMovie = async movie => {
+    try {
+      const res = await axios.post('http://localhost:8000/api/login', movie, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      setMovies(prev => [...prev, {
+        ...res.data,
+        genre: genres.find(e => e.id === res.data.genre_id),
+        director: directors.find(e => e.id === res.data.director_id)
+      }]);
+    } catch (error) {
+      alert(error.response.data.error);
+    }
+  }
   return (
     <BrowserRouter>
       <Navbar authenticated={token !== undefined} />
@@ -54,8 +72,8 @@ function App() {
         {
           token !== undefined ? (
             <>
-
-              <Route path='/' element={<></>} />
+              <Route path='/' element={<MoviesPage movies={movies} directors={directors} genres={genres} onAdd={addMovie} />} />
+              <Route path='/directors' element={<DirectorsPage directors={directors} />} />
             </>
           ) : (
 
